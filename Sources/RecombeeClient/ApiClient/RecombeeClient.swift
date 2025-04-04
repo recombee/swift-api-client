@@ -96,6 +96,7 @@ public class RecombeeClient {
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.timeoutInterval = request.timeout
         urlRequest.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        urlRequest.addValue("recombee-swift-api-client/5.0.1", forHTTPHeaderField: "User-Agent")
 
         if let body = request.bodyParameters {
             urlRequest.httpBody = try JSONEncoder().encode(AnyCodable(body))
