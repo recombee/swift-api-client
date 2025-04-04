@@ -5,7 +5,7 @@ import Foundation
 /// A client for communicating with the Recombee API.
 ///
 /// Use this class to send interaction events and fetch recommendations and search results.
-public class RecombeeClient {
+public class RecombeeClient: @unchecked Sendable {
     private let baseUrl: String
     private let databaseId: String
     private let publicToken: String
@@ -72,9 +72,8 @@ public class RecombeeClient {
     /// - Parameter request: The typed request to send.
     public func sendDetached<T: Request>(_ request: T) {
         Task.detached(priority: .utility) { [weak self] in
-            guard let self = self else { return }
             do {
-                _ = try await self.send(request)
+                _ = try await self?.send(request)
             } catch {
                 print("Error sending request: \(error.localizedDescription)")
             }

@@ -1,7 +1,7 @@
 import AnyCodable
 
 /// A protocol for response types that can be decoded from the Recombee API.
-public protocol RecombeeBinding: Decodable {
+public protocol RecombeeBinding: Decodable, Sendable {
     associatedtype CodingKeys: Swift.CodingKey
 }
 
