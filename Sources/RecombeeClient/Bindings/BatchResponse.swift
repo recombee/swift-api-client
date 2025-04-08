@@ -38,13 +38,13 @@ public struct AnyRecombeeBinding: RecombeeBinding {
     public func decode<T: RecombeeBinding>(as _: T.Type) throws -> T {
         // Handle JSON objects
         switch value {
-        case .dictionary(let dictionary):
+        case let .dictionary(dictionary):
             // Map to JSON-compatible `[String: Any]`
             let jsonCompatible = dictionary.mapValues { $0.value }
             let jsonData = try JSONSerialization.data(withJSONObject: jsonCompatible)
             return try JSONDecoder().decode(T.self, from: jsonData)
 
-        case.string(let string):
+        case let .string(string):
             // Handle single string values for `StringResponseBinding`
             if T.self == StringResponseBinding.self {
                 return StringResponseBinding(response: string) as! T
