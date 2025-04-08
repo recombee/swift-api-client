@@ -3,7 +3,7 @@
  */
 
 /// Logic Binding
-public struct Logic: RecombeeBinding, Encodable, Sendable {
+public struct Logic: RecombeeBinding, Encodable {
     public typealias CodingKeys = LogicCodingKeys
 
     /// Name of the logic that should be used
