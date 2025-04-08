@@ -1,7 +1,7 @@
-import AnyCodable
+@preconcurrency import AnyCodable
 
 /// A flexible, JSON-compatible dictionary used throughout the SDK.
-public struct JSONDictionary: Codable {
+public struct JSONDictionary: Codable, Sendable {
     private var internalStorage: [String: AnyCodable]
 
     public init(_ dictionary: [String: Any] = [:]) {

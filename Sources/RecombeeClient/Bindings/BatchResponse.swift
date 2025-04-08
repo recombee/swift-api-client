@@ -1,22 +1,27 @@
-import AnyCodable
+@preconcurrency import AnyCodable
 import Foundation
 
 /// A type-erased wrapper for `RecombeeBinding` objects.
 public struct AnyRecombeeBinding: RecombeeBinding {
     public typealias CodingKeys = NoCodingKeys
 
-    private let value: Any
+    private enum Value: Sendable {
+        case dictionary([String: AnyCodable])
+        case string(String)
+    }
+
+    private let value: Value
 
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
         // Try decoding as a dictionary
         if let dictionary = try? container.decode([String: AnyCodable].self) {
-            value = dictionary
+            value = .dictionary(dictionary)
         }
         // Try decoding as a string
         else if let string = try? container.decode(String.self) {
-            value = string
+            value = .string(string)
         }
         // Handle unsupported types
         else {
@@ -32,16 +37,18 @@ public struct AnyRecombeeBinding: RecombeeBinding {
 
     public func decode<T: RecombeeBinding>(as _: T.Type) throws -> T {
         // Handle JSON objects
-        if let dictionary = value as? [String: AnyCodable] {
+        switch value {
+        case let .dictionary(dictionary):
             // Map to JSON-compatible `[String: Any]`
             let jsonCompatible = dictionary.mapValues { $0.value }
             let jsonData = try JSONSerialization.data(withJSONObject: jsonCompatible)
             return try JSONDecoder().decode(T.self, from: jsonData)
-        }
 
-        // Handle single string values for `StringResponseBinding`
-        if let stringValue = value as? String, T.self == StringResponseBinding.self {
-            return StringResponseBinding(response: stringValue) as! T
+        case let .string(string):
+            // Handle single string values for `StringResponseBinding`
+            if T.self == StringResponseBinding.self {
+                return StringResponseBinding(response: string) as! T
+            }
         }
 
         // Unsupported value
@@ -60,7 +67,7 @@ public struct AnyRecombeeBinding: RecombeeBinding {
 public enum NoCodingKeys: Swift.CodingKey {}
 
 /// Represents the response for a single request within a batch.
-public struct BatchResponse<ResponseType: RecombeeBinding>: Decodable {
+public struct BatchResponse<ResponseType: RecombeeBinding>: Decodable, Sendable {
     /// The HTTP status code returned for this individual request
     public let statusCode: Int
 

@@ -4,7 +4,7 @@ import Foundation
 ///
 /// Conforming types define the endpoint path, HTTP method, parameters, and expected response type.
 /// This protocol is used internally by the SDK to standardize request construction and dispatching.
-public protocol Request {
+public protocol Request: Sendable {
     /// The expected response type returned by the API.
     associatedtype Response: RecombeeBinding
 
