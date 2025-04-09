@@ -110,6 +110,11 @@ do {
 }
 ```
 
+> [!TIP]
+> We also published a simple [example iOS app](https://github.com/recombee/ios-demo) to help you with the integration. Feel free to use it as a reference.
+>
+> ![iOS Demo app](https://raw.githubusercontent.com/recombee/ios-demo/refs/heads/main/images/screenshots.png)
+
 ## 📝 Documentation
 
 Discover the full [Swift API Client documentation](https://docs.recombee.com/swift_client) for comprehensive guides and examples.
