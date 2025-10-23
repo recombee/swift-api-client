@@ -29,6 +29,9 @@ public struct AddDetailView: Request {
     /// A dictionary of additional data for the interaction.
     public var additionalData: JSONDictionary? = nil
 
+    /// Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+    public var autoPresented: Bool? = nil
+
     /// Initializes AddDetailView request
     /// - Parameters:
     ///   - userId: User who viewed the item
@@ -38,7 +41,8 @@ public struct AddDetailView: Request {
     ///   - cascadeCreate: Sets whether the given user/item should be created if not present in the database.
     ///   - recommId: If this detail view is based on a recommendation request, `recommId` is the id of the clicked recommendation.
     ///   - additionalData: A dictionary of additional data for the interaction.
-    public init(userId: String, itemId: String, timestamp: Date? = nil, duration: Int? = nil, cascadeCreate: Bool? = true, recommId: String? = nil, additionalData: JSONDictionary? = nil) {
+    ///   - autoPresented: Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+    public init(userId: String, itemId: String, timestamp: Date? = nil, duration: Int? = nil, cascadeCreate: Bool? = true, recommId: String? = nil, additionalData: JSONDictionary? = nil, autoPresented: Bool? = nil) {
         self.userId = userId
         self.itemId = itemId
         self.timestamp = timestamp
@@ -46,6 +50,7 @@ public struct AddDetailView: Request {
         self.cascadeCreate = cascadeCreate
         self.recommId = recommId
         self.additionalData = additionalData
+        self.autoPresented = autoPresented
     }
 
     /// The API path for the request
@@ -90,6 +95,10 @@ public struct AddDetailView: Request {
 
         if let additionalData = additionalData {
             body["additionalData"] = additionalData
+        }
+
+        if let autoPresented = autoPresented {
+            body["autoPresented"] = autoPresented
         }
 
         return body

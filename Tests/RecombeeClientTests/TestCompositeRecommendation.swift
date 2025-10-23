@@ -5,18 +5,17 @@
 import RecombeeClient
 import XCTest
 
-final class RecommendItemsToItemSegmentTests: RecombeeTestCase {
-    func testRecommendItemsToItemSegment() async throws {
+final class CompositeRecommendationTests: RecombeeTestCase {
+    func testCompositeRecommendation() async throws {
         // Initialize the RecombeeClient
         let client = getRecombeeClient()
 
-        // Create a RecommendItemsToItemSegment request
-        let request = RecommendItemsToItemSegment(contextSegmentId: "3", targetUserId: "user-1", count: 5, scenario: "i-to-is", reqlExpressions: ["boolean": "true", "number": "if ('num-cores' > 0) then 1 else 2", "string": "\"test\""])
+        // Create a CompositeRecommendation request
+        let request = CompositeRecommendation(scenario: "composite-i-i", count: 10, resultSettings: CompositeRecommendationStageParameters(returnProperties: true, filter: "'num-cores' > 3"))
 
         do {
             // Call the send method
             let response = try await client.send(request)
-            XCTAssertEqual(response.recomms.count, 5)
 
         } catch let error as ClientError {
             XCTFail("Request failed with client error: \(error.errorDescription ?? "No description available.")")
@@ -25,12 +24,12 @@ final class RecommendItemsToItemSegmentTests: RecombeeTestCase {
         }
     }
 
-    func testRecommendItemsToItemSegmentInBatch() async throws {
+    func testCompositeRecommendationInBatch() async throws {
         // Initialize the RecombeeClient
         let client = getRecombeeClient()
 
-        // Create a RecommendItemsToItemSegment request in a Batch
-        let request = Batch(requests: [RecommendItemsToItemSegment(contextSegmentId: "3", targetUserId: "user-1", count: 5, scenario: "i-to-is", reqlExpressions: ["boolean": "true", "number": "if ('num-cores' > 0) then 1 else 2", "string": "\"test\""])])
+        // Create a CompositeRecommendation request in a Batch
+        let request = Batch(requests: [CompositeRecommendation(scenario: "composite-i-i", count: 10, resultSettings: CompositeRecommendationStageParameters(returnProperties: true, filter: "'num-cores' > 3"))])
 
         do {
             // Call the send method
@@ -41,9 +40,7 @@ final class RecommendItemsToItemSegmentTests: RecombeeTestCase {
             XCTAssert((200 ... 299).contains(responseWrapper.statusCode), "Unexpected HTTP status code: \(responseWrapper.statusCode)")
 
             let batchResponse = try responseWrapper.response
-            if let response = try? batchResponse?.decode(as: RecommendationResponse.self) {
-                XCTAssertEqual(response.recomms.count, 5)
-            }
+            if let response = try? batchResponse?.decode(as: RecommendationResponse.self) {}
 
         } catch let error as ClientError {
             XCTFail("Request failed with client error: \(error.errorDescription ?? "No description available.")")

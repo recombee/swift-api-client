@@ -21,7 +21,7 @@ public struct SetViewPortion: Request {
     /// ID of the session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc., depending on the language).
     public var sessionId: String? = nil
 
-    /// UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
+    /// UTC timestamp of the view portion as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
     public var timestamp: Date? = nil
 
     /// Sets whether the given user/item should be created if not present in the database.
@@ -33,17 +33,25 @@ public struct SetViewPortion: Request {
     /// A dictionary of additional data for the interaction.
     public var additionalData: JSONDictionary? = nil
 
+    /// Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+    public var autoPresented: Bool? = nil
+
+    /// The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
+    public var timeSpent: Double? = nil
+
     /// Initializes SetViewPortion request
     /// - Parameters:
     ///   - userId: User who viewed a portion of the item
     ///   - itemId: Viewed item
     ///   - portion: Viewed portion of the item (number between 0.0 (viewed nothing) and 1.0 (viewed full item) ). It should be the actual viewed part of the item, no matter the seeking. For example, if the user seeked immediately to half of the item and then viewed 10% of the item, the `portion` should still be `0.1`.
     ///   - sessionId: ID of the session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc., depending on the language).
-    ///   - timestamp: UTC timestamp of the rating as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
+    ///   - timestamp: UTC timestamp of the view portion as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
     ///   - cascadeCreate: Sets whether the given user/item should be created if not present in the database.
     ///   - recommId: If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.
     ///   - additionalData: A dictionary of additional data for the interaction.
-    public init(userId: String, itemId: String, portion: Double, sessionId: String? = nil, timestamp: Date? = nil, cascadeCreate: Bool? = true, recommId: String? = nil, additionalData: JSONDictionary? = nil) {
+    ///   - autoPresented: Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
+    ///   - timeSpent: The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
+    public init(userId: String, itemId: String, portion: Double, sessionId: String? = nil, timestamp: Date? = nil, cascadeCreate: Bool? = true, recommId: String? = nil, additionalData: JSONDictionary? = nil, autoPresented: Bool? = nil, timeSpent: Double? = nil) {
         self.userId = userId
         self.itemId = itemId
         self.portion = portion
@@ -52,6 +60,8 @@ public struct SetViewPortion: Request {
         self.cascadeCreate = cascadeCreate
         self.recommId = recommId
         self.additionalData = additionalData
+        self.autoPresented = autoPresented
+        self.timeSpent = timeSpent
     }
 
     /// The API path for the request
@@ -97,6 +107,14 @@ public struct SetViewPortion: Request {
 
         if let additionalData = additionalData {
             body["additionalData"] = additionalData
+        }
+
+        if let autoPresented = autoPresented {
+            body["autoPresented"] = autoPresented
+        }
+
+        if let timeSpent = timeSpent {
+            body["timeSpent"] = timeSpent
         }
 
         return body
