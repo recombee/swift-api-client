@@ -37,22 +37,22 @@ public struct CompositeRecommendation: Request {
 
     /// ID of the item for which the recommendations are to be generated.
 
-    public var itemId: String? = nil
+    public var itemId: String?
 
     /// ID of the user for which the recommendations are to be generated.
 
-    public var userId: String? = nil
+    public var userId: String?
 
     /// Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
     /// See [this section](https://docs.recombee.com/recommendation_logics) for a list of available logics and other details.
     /// The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
     /// Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var logic: Logic? = nil
+    public var logic: Logic?
 
     /// ID of the segment from `contextSegmentationId` for which the recommendations are to be generated.
 
-    public var segmentId: String? = nil
+    public var segmentId: String?
 
     /// If the entity for the source recommendation does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that entity, as the entity will be already known to the system.
 
@@ -60,15 +60,15 @@ public struct CompositeRecommendation: Request {
 
     /// Parameters applied for recommending the *Source* stage. The accepted parameters correspond with the recommendation sub-endpoint used to recommend the *Source*.
 
-    public var sourceSettings: CompositeRecommendationStageParameters? = nil
+    public var sourceSettings: CompositeRecommendationStageParameters?
 
     /// Parameters applied for recommending the *Result* stage. The accepted parameters correspond with the recommendation sub-endpoint used to recommend the *Result*.
 
-    public var resultSettings: CompositeRecommendationStageParameters? = nil
+    public var resultSettings: CompositeRecommendationStageParameters?
 
     /// Dictionary of custom options.
 
-    public var expertSettings: JSONDictionary? = nil
+    public var expertSettings: JSONDictionary?
 
     /// Initializes CompositeRecommendation request
     /// - Parameters:

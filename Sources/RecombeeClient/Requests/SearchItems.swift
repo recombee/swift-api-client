@@ -28,7 +28,7 @@ public struct SearchItems: Request {
     /// You can set various settings to the [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each field performs.
     /// The AI that optimizes models to get the best results may optimize different scenarios separately, or even use different models in each of the scenarios.
 
-    public var scenario: String? = nil
+    public var scenario: String?
 
     /// If the user does not exist in the database, returns a list of non-personalized search results and creates the user in the database. This allows, for example, rotations in the following recommendations for that user, as the user will be already known to the system.
     public var cascadeCreate: Bool? = true
@@ -63,7 +63,7 @@ public struct SearchItems: Request {
     ///   }
     /// ```
 
-    public var returnProperties: Bool? = nil
+    public var returnProperties: Bool?
 
     /// Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
     /// Example response for `includedProperties=description,price`:
@@ -91,24 +91,24 @@ public struct SearchItems: Request {
     ///   }
     /// ```
 
-    public var includedProperties: [String]? = nil
+    public var includedProperties: [String]?
 
     /// Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
     /// Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var filter: String? = nil
+    public var filter: String?
 
     /// Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
     /// Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var booster: String? = nil
+    public var booster: String?
 
     /// Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
     /// See [this section](https://docs.recombee.com/recommendation_logics) for a list of available logics and other details.
     /// The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
     /// Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var logic: Logic? = nil
+    public var logic: Logic?
 
     /// A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
     /// This can be used to compute additional properties of the recommended items that are not stored in the database.
@@ -147,15 +147,15 @@ public struct SearchItems: Request {
     /// }
     /// ```
 
-    public var reqlExpressions: JSONDictionary? = nil
+    public var reqlExpressions: JSONDictionary?
 
     /// Dictionary of custom options.
 
-    public var expertSettings: JSONDictionary? = nil
+    public var expertSettings: JSONDictionary?
 
     /// If there is a custom AB-testing running, return the name of the group to which the request belongs.
 
-    public var returnAbGroup: Bool? = nil
+    public var returnAbGroup: Bool?
 
     /// Initializes SearchItems request
     /// - Parameters:

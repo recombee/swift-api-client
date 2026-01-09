@@ -8,7 +8,7 @@ public struct Batch: Request {
     public let requests: [any Request]
 
     /// Whether to return distinct recommendations across all batched requests (default is false).
-    public var distinctRecomms: Bool? = nil
+    public var distinctRecomms: Bool?
 
     public var path: String { "/batch/" }
     public var method: HTTPMethod { .POST }

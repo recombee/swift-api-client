@@ -15,16 +15,16 @@ public struct AddBookmark: Request {
     public let itemId: String
 
     /// UTC timestamp of the bookmark as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
-    public var timestamp: Date? = nil
+    public var timestamp: Date?
 
     /// Sets whether the given user/item should be created if not present in the database.
     public var cascadeCreate: Bool? = true
 
     /// If this bookmark is based on a recommendation request, `recommId` is the id of the clicked recommendation.
-    public var recommId: String? = nil
+    public var recommId: String?
 
     /// A dictionary of additional data for the interaction.
-    public var additionalData: JSONDictionary? = nil
+    public var additionalData: JSONDictionary?
 
     /// Initializes AddBookmark request
     /// - Parameters:

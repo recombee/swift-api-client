@@ -41,7 +41,7 @@ public struct RecommendItemsToItemSegment: Request {
     /// You can set various settings to the [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com). You can also see the performance of each scenario in the Admin UI separately, so you can check how well each application performs.
     /// The AI that optimizes models to get the best results may optimize different scenarios separately or even use different models in each of the scenarios.
 
-    public var scenario: String? = nil
+    public var scenario: String?
 
     /// If a user of the given *targetUserId* doesn't exist in the database, it creates this user and returns some (non-personalized) recommendations. This allows, for example, rotations in the following recommendations for the user of the given *targetUserId*, as the user will be already known to the system.
     public var cascadeCreate: Bool? = true
@@ -76,7 +76,7 @@ public struct RecommendItemsToItemSegment: Request {
     ///   }
     /// ```
 
-    public var returnProperties: Bool? = nil
+    public var returnProperties: Bool?
 
     /// Allows specifying which properties should be returned when `returnProperties=true` is set. The properties are given as a comma-separated list.
     /// Example response for `includedProperties=description,price`:
@@ -104,24 +104,24 @@ public struct RecommendItemsToItemSegment: Request {
     ///   }
     /// ```
 
-    public var includedProperties: [String]? = nil
+    public var includedProperties: [String]?
 
     /// Boolean-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to filter recommended items based on the values of their attributes.
     /// Filters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var filter: String? = nil
+    public var filter: String?
 
     /// Number-returning [ReQL](https://docs.recombee.com/reql) expression, which allows you to boost the recommendation rate of some items based on the values of their attributes.
     /// Boosters can also be assigned to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var booster: String? = nil
+    public var booster: String?
 
     /// Logic specifies the particular behavior of the recommendation models. You can pick tailored logic for your domain and use case.
     /// See [this section](https://docs.recombee.com/recommendation_logics) for a list of available logics and other details.
     /// The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
     /// Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
 
-    public var logic: Logic? = nil
+    public var logic: Logic?
 
     /// A dictionary of [ReQL](https://docs.recombee.com/reql) expressions that will be executed for each recommended item.
     /// This can be used to compute additional properties of the recommended items that are not stored in the database.
@@ -160,27 +160,27 @@ public struct RecommendItemsToItemSegment: Request {
     /// }
     /// ```
 
-    public var reqlExpressions: JSONDictionary? = nil
+    public var reqlExpressions: JSONDictionary?
 
     /// **Expert option:** If the *targetUserId* is provided:  Specifies the threshold of how relevant must the recommended items be to the user. Possible values one of: "low", "medium", "high". The default value is "low", meaning that the system attempts to recommend a number of items equal to *count* at any cost. If there is not enough data (such as interactions or item properties), this may even lead to bestseller-based recommendations being appended to reach the full *count*. This behavior may be suppressed by using "medium" or "high" values. In such case, the system only recommends items of at least the requested relevance and may return less than *count* items when there is not enough data to fulfill it.
 
-    public var minRelevance: String? = nil
+    public var minRelevance: String?
 
     /// **Expert option:** If the *targetUserId* is provided: If your users browse the system in real-time, it may easily happen that you wish to offer them recommendations multiple times. Here comes the question: how much should the recommendations change? Should they remain the same, or should they rotate? Recombee API allows you to control this per request in a backward fashion. You may penalize an item for being recommended in the near past. For the specific user, `rotationRate=1` means maximal rotation, `rotationRate=0` means absolutely no rotation. You may also use, for example, `rotationRate=0.2` for only slight rotation of recommended items.
 
-    public var rotationRate: Double? = nil
+    public var rotationRate: Double?
 
     /// **Expert option:** If the *targetUserId* is provided: Taking *rotationRate* into account, specifies how long it takes for an item to recover from the penalization. For example, `rotationTime=7200.0` means that items recommended less than 2 hours ago are penalized.
 
-    public var rotationTime: Double? = nil
+    public var rotationTime: Double?
 
     /// Dictionary of custom options.
 
-    public var expertSettings: JSONDictionary? = nil
+    public var expertSettings: JSONDictionary?
 
     /// If there is a custom AB-testing running, return the name of the group to which the request belongs.
 
-    public var returnAbGroup: Bool? = nil
+    public var returnAbGroup: Bool?
 
     /// Initializes RecommendItemsToItemSegment request
     /// - Parameters:

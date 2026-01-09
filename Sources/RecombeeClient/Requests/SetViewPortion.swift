@@ -19,25 +19,25 @@ public struct SetViewPortion: Request {
     public let portion: Double
 
     /// ID of the session in which the user viewed the item. Default is `null` (`None`, `nil`, `NULL` etc., depending on the language).
-    public var sessionId: String? = nil
+    public var sessionId: String?
 
     /// UTC timestamp of the view portion as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
-    public var timestamp: Date? = nil
+    public var timestamp: Date?
 
     /// Sets whether the given user/item should be created if not present in the database.
     public var cascadeCreate: Bool? = true
 
     /// If this view portion is based on a recommendation request, `recommId` is the id of the clicked recommendation.
-    public var recommId: String? = nil
+    public var recommId: String?
 
     /// A dictionary of additional data for the interaction.
-    public var additionalData: JSONDictionary? = nil
+    public var additionalData: JSONDictionary?
 
     /// Indicates whether the item was automatically presented to the user (e.g., in a swiping feed) or explicitly requested by the user (e.g., by clicking on a link). Defaults to `false`.
-    public var autoPresented: Bool? = nil
+    public var autoPresented: Bool?
 
     /// The duration (in seconds) that the user viewed the item. In update requests, this value may only increase and is required only if it has changed.
-    public var timeSpent: Double? = nil
+    public var timeSpent: Double?
 
     /// Initializes SetViewPortion request
     /// - Parameters:

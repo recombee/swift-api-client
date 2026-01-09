@@ -15,22 +15,22 @@ public struct AddCartAddition: Request {
     public let itemId: String
 
     /// UTC timestamp of the cart addition as ISO8601-1 pattern or UTC epoch time. The default value is the current time.
-    public var timestamp: Date? = nil
+    public var timestamp: Date?
 
     /// Sets whether the given user/item should be created if not present in the database.
     public var cascadeCreate: Bool? = true
 
     /// Amount (number) added to cart. The default is 1. For example, if `user-x` adds two `item-y` during a single order (session...), the `amount` should equal 2.
-    public var amount: Double? = nil
+    public var amount: Double?
 
     /// Price of the added item. If `amount` is greater than 1, the sum of prices of all the items should be given.
-    public var price: Double? = nil
+    public var price: Double?
 
     /// If this cart addition is based on a recommendation request, `recommId` is the id of the clicked recommendation.
-    public var recommId: String? = nil
+    public var recommId: String?
 
     /// A dictionary of additional data for the interaction.
-    public var additionalData: JSONDictionary? = nil
+    public var additionalData: JSONDictionary?
 
     /// Initializes AddCartAddition request
     /// - Parameters:
