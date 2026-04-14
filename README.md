@@ -46,7 +46,7 @@ https://github.com/recombee/swift-api-client
 Alternatively, in `Package.swift`:
 
 ```swift
-.package(url: "https://github.com/recombee/swift-api-client", from: "6.1.0")
+.package(url: "https://github.com/recombee/swift-api-client", from: "6.2.0")
 ```
 
 Then add to your target dependencies:

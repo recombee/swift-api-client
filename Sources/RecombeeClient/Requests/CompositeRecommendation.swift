@@ -4,7 +4,7 @@
 
 import Foundation
 
-/// Composite Recommendation returns both a *source entity* (e.g., an Item or [Item Segment](https://docs.recombee.com/segmentations.html)) and a list of related recommendations in a single response.
+/// Composite Recommendation returns both a *source entity* (e.g., an Item or [Item Segment](https://docs.recombee.com/segmentations)) and a list of related recommendations in a single response.
 /// It is ideal for use cases such as personalized homepage sections (*Articles from <category>*), *Because You Watched <movie>*, or *Artists Related to Your Favorite Artist <artist>*.
 /// See detailed **examples and configuration guidance** in the [Composite Scenarios documentation](https://docs.recombee.com/scenarios#composite-recommendations).
 /// **Structure**
@@ -54,6 +54,10 @@ public struct CompositeRecommendation: Request {
 
     public var segmentId: String?
 
+    /// Search query provided by the user. It is used for the full-text search. Only applicable if the *scenario* corresponds to a search scenario.
+
+    public var searchQuery: String?
+
     /// If the entity for the source recommendation does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that entity, as the entity will be already known to the system.
 
     public var cascadeCreate: Bool? = true
@@ -83,18 +87,20 @@ public struct CompositeRecommendation: Request {
     /// The difference between `logic` and `scenario` is that `logic` specifies mainly behavior, while `scenario` specifies the place where recommendations are shown to the users.
     /// Logic can also be set to a [scenario](https://docs.recombee.com/scenarios) in the [Admin UI](https://admin.recombee.com).
     ///   - segmentId: ID of the segment from `contextSegmentationId` for which the recommendations are to be generated.
+    ///   - searchQuery: Search query provided by the user. It is used for the full-text search. Only applicable if the *scenario* corresponds to a search scenario.
     ///   - cascadeCreate: If the entity for the source recommendation does not exist in the database, returns a list of non-personalized recommendations and creates the user in the database. This allows, for example, rotations in the following recommendations for that entity, as the entity will be already known to the system.
     ///   - sourceSettings: Parameters applied for recommending the *Source* stage. The accepted parameters correspond with the recommendation sub-endpoint used to recommend the *Source*.
     ///   - resultSettings: Parameters applied for recommending the *Result* stage. The accepted parameters correspond with the recommendation sub-endpoint used to recommend the *Result*.
     ///   - expertSettings: Dictionary of custom options.
 
-    public init(scenario: String, count: Int, itemId: String? = nil, userId: String? = nil, logic: Logic? = nil, segmentId: String? = nil, cascadeCreate: Bool? = true, sourceSettings: CompositeRecommendationStageParameters? = nil, resultSettings: CompositeRecommendationStageParameters? = nil, expertSettings: JSONDictionary? = nil) {
+    public init(scenario: String, count: Int, itemId: String? = nil, userId: String? = nil, logic: Logic? = nil, segmentId: String? = nil, searchQuery: String? = nil, cascadeCreate: Bool? = true, sourceSettings: CompositeRecommendationStageParameters? = nil, resultSettings: CompositeRecommendationStageParameters? = nil, expertSettings: JSONDictionary? = nil) {
         self.scenario = scenario
         self.count = count
         self.itemId = itemId
         self.userId = userId
         self.logic = logic
         self.segmentId = segmentId
+        self.searchQuery = searchQuery
         self.cascadeCreate = cascadeCreate
         self.sourceSettings = sourceSettings
         self.resultSettings = resultSettings
@@ -139,6 +145,10 @@ public struct CompositeRecommendation: Request {
 
         if let segmentId = segmentId {
             body["segmentId"] = segmentId
+        }
+
+        if let searchQuery = searchQuery {
+            body["searchQuery"] = searchQuery
         }
 
         if let cascadeCreate = cascadeCreate {
